@@ -680,7 +680,7 @@ function sendMessage() {
           cx=cxi; cy=cyi; 
 	}
 	
-	ctx.fillStyle = "lightgray";
+	ctx.fillStyle = "white";
         ctx.fillRect(0, 144, 1080, 1248);
         cx1=cx1i; cy1=cy1i;
 	
@@ -755,7 +755,9 @@ function updateMessage() {
               // ctx.fillStyle = "white";
               // ctx.fillRect(0, 144, 1080, 1248);
              } 
-           cls=0; cla=0; cpr=0;
+	if(!chatbot) {
+           cls=0; cla=0; cpr=0; 
+	}
   }
 		
 </script>
