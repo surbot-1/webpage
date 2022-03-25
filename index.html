@@ -654,9 +654,9 @@ function message() {
 	function f1() {
 		var cnv = document.getElementById("canvas");
 		var ctx = cnv.getContext('2d');
-		if (k==0) {ctx.fillStyle = "yellow";}
+		if (k==0) {ctx.fillStyle = "green";}
 		if (k==1) {ctx.fillStyle = "white";}
-		ctx.fillRect(i, cy1+j, 16, 16);
+		ctx.fillRect(i, cy1+j, 8, 8);
 		i+=8;
 		if (i>8*3){i=0; if(k==0){k=1;}else{k=0;}}
 	}
@@ -674,11 +674,9 @@ function sendMessage() {
 	}
 	var cnv = document.getElementById("canvas");
         var ctx = cnv.getContext('2d'); 
-	if (!chatbot) {
           ctx.fillStyle = "white";
           ctx.fillRect(124+14, 1416, 796-128+28-14, 48*2); 
           cx=cxi; cy=cyi; 
-	}
 	
 	ctx.fillStyle = "white";
         ctx.fillRect(0, 144, 1080, 1248);
@@ -755,9 +753,7 @@ function updateMessage() {
               // ctx.fillStyle = "white";
               // ctx.fillRect(0, 144, 1080, 1248);
              } 
-	if(!chatbot) {
            cls=0; cla=0; cpr=0; 
-	}
   }
 		
 </script>
