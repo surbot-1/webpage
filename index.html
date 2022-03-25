@@ -25,9 +25,9 @@ document.body.appendChild(elem);
 var canvs = document.createElement("canvas");
 canvs.setAttribute("id", "canvas");
 canvs.setAttribute("width", "1080");
-canvs.setAttribute("background-color","lightgray");
 canvs.setAttribute("height", "2176");  // 2400-112-112=2176
-// canv.setAttribute("border", "solid black 1px");
+// canvs.setAttribute("border", "solid black 1px");
+canvs.setAttribute("background-color","gray");
 document.getElementById("divCanv").appendChild(canvs); 
 	
 </script>
@@ -673,12 +673,14 @@ function sendMessage() {
 	putMsgCnt();
 	}
 	var cnv = document.getElementById("canvas");
-        var ctx = cnv.getContext('2d');
+        var ctx = cnv.getContext('2d'); 
+	if (!chatbot) {
           ctx.fillStyle = "white";
-          ctx.fillRect(124+14, 1416, 796-128+28-14, 48*2);
-          cx=cxi; cy=cyi;
+          ctx.fillRect(124+14, 1416, 796-128+28-14, 48*2); 
+          cx=cxi; cy=cyi; 
+	}
 	
-	ctx.fillStyle = "white";
+	ctx.fillStyle = "lightgray";
         ctx.fillRect(0, 144, 1080, 1248);
         cx1=cx1i; cy1=cy1i;
 	
