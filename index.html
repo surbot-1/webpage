@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang=”en”>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+</head>
+  
+<body>
+
+<script src="ubuntufont.js"></script>
+<script src="font1632.js"></script>
+<script src="font2448.js"></script>
+<script src="font3264.js"></script>
+<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+	
+<script>
+	
+var elem = document.createElement('div');
+elem.setAttribute("id", "divCanv");
+// elem.setAttribute("border", "solid black 1px");
+// elem.style.cssText = 'position:absolute;width:100%;height:100%;opacity:0.3;z-index:100;background:#000';
+document.body.appendChild(elem);
+
+var canvs = document.createElement("canvas");
+canvs.setAttribute("id", "canvas");
+canvs.setAttribute("width", "1080");
+canvs.setAttribute("height", "2176");  // 2400-112-112=2176
+// canv.setAttribute("border", "solid black 1px");
+document.getElementById("divCanv").appendChild(canvs); 
+	
+</script>
+	
+<script>
+	
+     var cordx, cordy, cordt=0;
+     var canvas = document.getElementById("canvas");
+     var context = canvas.getContext('2d');
+     function handleEnd(evt) { 
+       evt.preventDefault();
+       var ele = document.getElementById("canvas");
+       var ctx = ele.getContext("2d");
+       var touches = evt.changedTouches;
+       var  x = touches[0].pageX; cordx = x;
+       var  y = touches[0].pageY; cordy = y;
+       var  t = 3;                cordt = t;  // touchend
+       // ds1();
+      }
+      canvas.addEventListener("touchend", handleEnd, false);
+	
+</script>
+	
+	
+<script>
+	 
+      ds1();
+  function ds1() {
+	
+    var cx=0, cy=0, cw=1080, ch=2400-112-112; // 2176
+    var canvas = document.getElementById("canvas");
+    var context = canvas.getContext('2d');
+	  
+	context.fillStyle = "white";
+        context.fillRect(0, 0, 1080, 2400);
+        
+        var image1 = new Image();  // dp 144
+        image1.setAttribute('crossOrigin', 'anonymous');
+        image1.src = 'dp3.png';
+        image1.onload = function (e) {
+        var x = cx;
+	var y = cy;
+	var w = cw;
+	var h = 144;
+          context.drawImage(image1, x, y, w, h);
+        }; 
+	
+        var image2 = new Image();  // text 144
+        image2.setAttribute('crossOrigin', 'anonymous');
+        image2.src = 'text4.png';
+        image2.onload = function (e) {
+	var x = cx;
+	var y = ch-144-640-1+640;  // 1391+640=2031
+	var w = cw;
+	var h = 144;
+          context.drawImage(image2, x, y, w, h);
+        }; 
+	  
+	var inv;
+	function chk() { 
+	var x = cordx;  var y = cordy; 
+	var t = cordt;  
+           if (t == 3) { cordt = 0;
+              if (x>0 && x<1080 && y>2032 && y<2176) { 
+              clearInterval(inv); ds2(); 
+               }
+             }
+	   }
+	  inv = setInterval(chk, 0100); 
+	  
+      /* function handleEnd(evt) {
+       evt.preventDefault();
+       var ele = document.getElementById("canvas");
+       var ctx = ele.getContext("2d");
+       var touches = evt.changedTouches;
+       var  x = touches[0].pageX; cordx = x;
+       var  y = touches[0].pageY; cordy = y;
+	  
+       if (x>0 && x<1080 && y>2032 && y<2176) { 
+           ds2();
+           }
+       }
+       canvas.addEventListener("touchend", handleEnd, false); 
+        */
+   }
+	
+       // ds2();
+	
+  function ds2() { 
+    cursor = setInterval(writeCursor, 1000);
+    var cx=0, cy=0, cw=1080, ch=2400-112-112; // 2176
+    var cvs = document.getElementById("canvas");
+    var ctx = cvs.getContext('2d');
+	  
+	ctx.fillStyle = "white";
+        ctx.fillRect(0, 0, 1080, 2400);
+	   
+        var image1 = new Image();  // dp 144
+        image1.setAttribute('crossOrigin', 'anonymous');
+        image1.src = 'dp3.png'; 
+        image1.onload = function (e) {
+        var x = cx;
+        var y = cy;
+        var w = cw;
+        var h = 144;
+          ctx.drawImage(image1, 0, 0,1080,144);
+        }; 
+	  
+	var image2 = new Image();  // text 144
+        image2.setAttribute('crossOrigin', 'anonymous');
+        image2.src = 'text5.png';
+        image2.onload = function (e) {
+	var x = cx;
+	var y = ch-144-640-1;  // 1391
+	var w = cw;
+	var h = 144;
+          ctx.drawImage(image2, x, y, w, h);
+        };
+	  
+	var image3 = new Image();  // keypad 640
+        image3.setAttribute('crossOrigin', 'anonymous');
+        image3.src = 'keypad1.png';
+        image3.onload = function (e) { 
+	var x = cx;
+	var y = ch-640-1;    // 1535
+	var w = cw;
+	var h = 640;
+          ctx.drawImage(image3, x, y, w, h); 
+        };
+	  
+        var inv;
+    function chk() { 
+	var x = cordx;  var y = cordy; 
+	var t = cordt;  
+      if (t == 3) { cordt = 0;
+	if (x>0 && x<72 && y>0 && y<144) {          // back
+           clearInterval(inv); clrCursor(); ds1();
+       } else if (x>72 && x<108 && y>0 && y<144) {  // dp
+       } else if (x>108 && x<740 && y>0 && y<144) {  // space
+       } else if (x>740 && x<800 && y>0 && y<144) {  // video call
+       } else if (x>880 && x<924 && y>0 && y<144) {  // voice call
+       } else if (x>1000 && x<1040 && y>0 && y<144) {  // option
+       } else if (x>0 && x<1080 && y>144 && y<1392) {  // message_field
+	       
+       } else if (x>0 && x<128 && y>1392 && y<1536) { // emoji
+       } else if (x>128 && x<800 && y>1392 && y<1536) { // type_field
+       } else if (x>800 && x<932 && y>1392 && y<1536) { // attachment
+       } else if (x>932 && x<1080 && y>1392 && y<1536) { // send
+	       message();
+       } else if (x>0 && x<1080 && y>1536 && y<2176) {  // keypad
+	       keypad(); 
+       }
+      }
+     }
+     inv = setInterval(chk, 0100);
+	    
+   /*
+    function handleEnd(evt) {
+	       
+       var touches = evt.changedTouches;
+       var  x = touches[0].pageX; cordx = x;
+       var  y = touches[0].pageY; cordy = y;
+	  
+       if (x>0 && x<72 && y>0 && y<144) {          // back
+               ds1();
+       } else if (x>72 && x<108 && y>0 && y<144) {  // dp
+       } else if (x>108 && x<740 && y>0 && y<144) {  // space
+       } else if (x>740 && x<800 && y>0 && y<144) {  // video call
+       } else if (x>880 && x<924 && y>0 && y<144) {  // voice call
+       } else if (x>1000 && x<1040 && y>0 && y<144) {  // option
+       } else if (x>0 && x<1080 && y>144 && y<1392) {  // message_field
+	       
+       } else if (x>0 && x<128 && y>1392 && y<1536) { // emoji
+       } else if (x>128 && x<800 && y>1392 && y<1536) { // type_field
+       } else if (x>800 && x<932 && y>1392 && y<1536) { // attachment
+       } else if (x>932 && x<1080 && y>1392 && y<1536) { // send
+                // sendMessage();
+       } else if (x>0 && x<1080 && y>1536 && y<2176) {  // keypad
+	       keypad(); 
+       }
+     }
+     cvs.addEventListener("touchend", handleEnd, false);
+	  */
+   }
+	
+
+ 
+	
+
+	
+
+var msgBuf = new ArrayBuffer(256);
+var msgView = new DataView(msgBuf);
+msgView.setUint8(0, 125);
+msgView.getUint8(0); // 125
+var msgArr = new Uint8Array(msgBuf);
+var msgStr;
+
+var qwertyChar    = ["Q","W","E","R","T","Y","U","I","O","P",
+	               "A","S","D","F","G","H","J","K","L",
+	             "SI", "Z","X","C","V","B","N","M","BS",
+	            "DC1","DC2",",",   "SPACE",    ".","\n"];
+
+var qwertyHex     = [0x51,0x57,0x45,0x52,0x54,0x59,0x55,0x49,0x4F,0x50,  // 0-9  QEERTYUIOP
+	               0x41,0x53,0x44,0x46,0x47,0x48,0x4A,0x4B,0x4C,     // 10-18 ASDFGHJKL
+	             0x0F, 0x5A,0x58,0x43,0x56,0x42,0x4E,0x4D, 0x08,    // 19-27 siZXCVBNMbs
+	             0x11, 0x12,0x2C,       0x20,        0x2E, 0x0A];   // 28-33 dc1dc2,Space.dc
+	
+var ci = 16; var cj = 208;
+var cursor; var ptr=0;
+var cls=0; var cla=0; var cpr=0;
+var keyChar; var kChar;
+var keyHex;  var kHex;
+var cxi=124+14;  var cxf=796-14;
+var cyi=1440-24; var cyf=1488-24;
+var cx=124+14; var cy=1440-24; var cp;
+var cxp; var cyp;  
+var cw=24; var ch=48; var oh=33;
+	
+function keypad() {
+     cxp=cx; cyp=cy;
+     clearInterval(cursor);
+     showCursor();
+     writeChar();
+     // writeMessage1();
+     storeMessageStr();
+    // storeMessageArr();
+     // putMsgCnt();
+     updateCursor();
+     cursor = setInterval(writeCursor, 1000); 	
+	
+   } // keypad
+	
+ function readQwerty() {
+	
+     var x = cordx;
+     var y = cordy;
+	
+   if (y>1535 && y<1535+160) {
+     for (let i=0; i<10; i++) {
+       if (x>108*i && x<108*i+108) {
+        keyChar = qwertyChar[i];
+        keyHex = qwertyHex[i];
+       }
+      }
+     }
+	
+   if (y>1535+160 && y<1535+160*2) {
+     for (let i=0; i<1; i++) {
+       if (x>108*i && x<108*i+108+54) {
+        keyChar = qwertyChar[10+i];
+        keyHex = qwertyHex[10+i];
+	 }
+	}
+     for (let i=0; i<7; i++) {
+       if (x>54+108+108*i && x<54+108+108*i+108) {
+        keyChar = qwertyChar[11+i];
+        keyHex = qwertyHex[11+i];
+	 }
+	}
+     for (let i=0; i<1; i++) {
+       if (x>54+108*8+108*i && x<54+108*8+108*i+108+54) {
+        keyChar = qwertyChar[18+i];
+        keyHex = qwertyHex[18+i];
+	 }
+	}
+       }
+	
+   if (y>1535+160*2 && y<1535+160*3) {
+	   
+     for (let i=0; i<1; i++) {
+       if (x>108*i && x<54+108*i+108) {
+        keyChar = qwertyChar[19+i];
+        keyHex = qwertyHex[19+i];
+	 }
+	}
+     for (let i=0; i<7; i++) {
+       if (x>54+108+108*i && x<54+108+108*i+108) {
+        keyChar = qwertyChar[20+i];
+        keyHex = qwertyHex[20+i];
+	 }
+	}
+     for (let i=0; i<1; i++) {
+       if (x>54+108*8+108*i && x<54+108*8+108*i+108+54) {
+        keyChar = qwertyChar[27+i];
+        keyHex = qwertyHex[27+i];
+	 }
+	}
+      }
+	
+    if (y>1535+160*3 && y<1535+160*4) {
+     for (let i=0; i<1; i++) {
+       if (x>108*i && x<108*i+108+54) {
+        keyChar = qwertyChar[28+i];
+        keyHex = qwertyHex[28+i];
+	 }
+	}
+     for (let i=0; i<2; i++) {
+       if (x>54+108+108*i && x<54+108+108*i+108) {
+        keyChar = qwertyChar[29+i];
+        keyHex = qwertyHex[29+i];
+	 }
+	}
+     for (let i=0; i<1; i++) {
+       if (x>54+108*3+108*i && x<54+108*6+108*i+108) {
+        keyChar = qwertyChar[31+i];
+        keyHex = qwertyHex[31+i]; 
+	 }
+	}
+     for (let i=0; i<1; i++) {
+       if (x>54+108*7+108*i && x<54+108*7+108*i+108) {
+        keyChar = qwertyChar[32+i];
+        keyHex = qwertyHex[32+i]; 
+	 }
+	}
+    for (let i=0; i<1; i++) {
+       if (x>54+108*8+108*i && x<54+108*8+108*i+108+54) {
+        keyChar = qwertyChar[33+i];
+        keyHex = qwertyHex[33+i]; 
+	 }
+	}
+      } 
+	
+   }  // read_qwerty
+	
+ 
+
+    
+function writeMessage() { 
+ // var cvs = document.getElementById("canvas");
+ // var ctx = cvs.getContext('2d');
+  var x = cordx;
+  var y = cordy;
+  if (x>0 && x<1080 && y>1536 && y<2176) {
+  readQwerty();
+  var keyC = keyChar; 
+  var canv = document.getElementById("canvas");
+  var ctx = canv.getContext('2d');
+  if(keyC == "SI") { 
+  } else if(keyC == "BS") {
+  ctx.fillStyle = "white";
+  ctx.fillRect(0, 144, 1080, 1247);
+  ci=16; cj=208;
+  } else if(keyC == "DC1") { 
+  } else if(keyC == "DC2") {
+  } else if(keyC == "SPACE") {
+       ctx.fillStyle = "white";
+       ctx.fillRect(ci, cj-32, 4, 32);
+	  ci+=48;
+       if(ci>1080-48) {ci=16; cj+=64;}
+       if(cj>1392-64) {ci=16; cj=208;}
+	  
+  } else if(keyC == "\n") {
+       ctx.fillStyle = "white";
+       ctx.fillRect(ci, cj-32, 4, 32);
+	  ci=16; cj+=64;
+       if(cj>1392-64) {ci=16; cj=208;}
+	  
+  } else {
+       // if(ci>1080-48) {ci=16; cj+=64;}
+       // if(cj>1392-64) {ci=16; cj=208;}
+       ctx.fillStyle = "white";
+       ctx.fillRect(ci, cj-32, 4, 32);
+       ctx.font = "48px Arial";
+       ctx.fillStyle = "red";
+       ctx.fillText(keyC, ci, cj);
+           ci+=48;
+       if(ci>1080-48) {ci=16; cj+=64;}
+       if(cj>1392-64) {ci=16; cj=208;}
+       }  
+	  
+     }
+   }   // write_message
+
+	
+function storeMessageStr() {
+        readQwerty();
+        var keyC = keyChar;
+        var keyH = keyHex;
+        if (keyC == "SI") {           // shift_in
+                
+	} else if (keyC == "BS") {    // back_space
+               if (cpr==0) {
+              } else {
+		 msgStr = "";
+                 msgArr[cpr] = 0x00;
+                 cls--; cla--; cpr--;
+              }
+        } else if (keyC == "DC1") {    // ?123
+	} else if (keyC == "DC2") {    // emoji
+	} else if (keyC == "SPACE") {  // space
+               msgStr += " ";
+               msgArr[cpr] = 0x20;
+               cls++; cla++; cpr++;
+	} else if (keyC == "\n") {    // enter - new_line
+               msgStr += "\n";
+               msgArr[cpr] = 0x0A;
+               cls++; cla++; cpr++;
+        } else {               
+               msgStr += keyC;
+               msgArr[cpr] = keyH;
+               cls++; cla++; cpr++;
+               }  
+     }
+	
+ function storeMessageArr() {
+	 
+	  readQwerty();
+	 var keyC = keyChar;
+	 var keyH = keyHex;
+	
+      if (keyH == 0x0F) {             // shift_in
+                
+	} else if (keyH == 0x08) {    // back_space
+               msgStr = "";
+               msgArr[cpr] = 0x00;
+               cls--; cla--; cpr--;
+        } else if (keyH == 0x11) {    // ?123
+	} else if (keyH == 0x12) {    // emoji
+	} else if (keyH == 0x20) {    // space
+               msgStr += " ";
+               msgArr[cpr] = 0x20;
+               cls++; cla++; cpr++;
+	} else if (keyH == 0x0A) {    // enter
+               msgStr += "\n";
+               msgArr[cpr] = 0x0A;
+               cls++; cla++; cpr++;
+        } else {               
+               msgStr += keyC;
+               msgArr[cpr] = keyH;
+               cls++; cla++; cpr++;
+               } 
+       
+   }
+	
+function writeCursor() {
+        var cvs = document.getElementById("canvas");
+        var ctx = cvs.getContext('2d');
+	
+        ctx.fillStyle = "blue";
+        ctx.fillRect(cx, cy, 4, 48);
+	setTimeout( function() {
+	ctx.fillStyle = "white";
+        ctx.fillRect(cx, cy, 4, 48);
+        }, 0500);
+      }	 
+
+function showCursor() {
+        var cvs = document.getElementById("canvas");
+        var ctx = cvs.getContext('2d');
+        ctx.fillStyle = "blue";
+        ctx.fillRect(cx, cy, 4, 48);
+        }
+	
+function updateCursor() {
+        var cvs = document.getElementById("canvas");
+        var ctx = cvs.getContext('2d');
+        ctx.fillStyle = "white";
+        ctx.fillRect(cxp, cyp, 4, 48);
+	ctx.fillStyle = "blue";
+        ctx.fillRect(cx, cy, 4, 48);
+        }
+	
+function clrCursor() {
+        var cvs = document.getElementById("canvas");
+        var ctx = cvs.getContext('2d');
+        clearInterval(cursor);
+        ctx.fillStyle = "white";
+        ctx.fillRect(cx, cy, 4, 48);
+        }
+  
+	
+</script>
+	
+	
+	
+<script>
+	      
+    
+function writeChar() {
+	var x = cordx;
+        var y = cordy;
+  if (x>0 && x<1080 && y>1536 && y<2176) {
+     var cnv = document.getElementById("canvas");
+     var ctx = cnv.getContext('2d');
+	readQwerty();
+        var keyP = msgArr[cpr-1]; // previous
+	var keyH = keyHex;
+  if(keyH == 0x0F) {              // shift
+  } else if(keyH == 0x08) {       // back_space
+       if (cpr==0) {
+       } else if(keyP==0x0A) {
+	       
+	       var i=0; var j=0;
+	       for (let k=0; k<cpr-1; k++) {
+                  if (msgArr[k]==0x0A) {
+		   i=0; j++; 
+		   if (j>1) {i=0; j=0;}
+                  } else {
+                   i++;
+		   if (i>23) {i=0; j++;}
+		   if (j>1) {i=0; j=0;}
+		  }
+		}
+	      cx=cxi+28*i; cy=cyi+48*j;
+	       
+       } else {
+        ctx.fillStyle = "white";
+        ctx.fillRect(cx, cy, 4, 48);
+	  cx-=28;
+        if(cx<cxi) {cx=cxf; cy-=48;}
+        if(cy<cyi) {cx=cxf; cy=cyf;}
+        ctx.fillStyle = "white";
+        ctx.fillRect(cx+4, cy, 24, 48);
+       }
+  } else if(keyH == 0x11) { 
+  } else if(keyH == 0x12) {
+  } else if(keyH == 0x20) {     // space
+       ctx.fillStyle = "white";
+       ctx.fillRect(cx, cy, 28, 48);
+	   cx+=28;
+       if(cx>cxf) {cx=cxi; cy+=48;}
+       if(cy>cyf) {cx=cxi; cy=cyi;}
+	  
+  } else if(keyH == 0x0A) {    // enter
+       ctx.fillStyle = "white";
+       ctx.fillRect(cx, cy, 4, 48);
+	 cx=cxi; cy+=48;
+       if(cy>cyf) {cx=cxi; cy=cyi;}
+       
+	  
+  } else {
+       ctx.fillStyle = "white";
+       ctx.fillRect(cx, cy, 4, 48);
+        oh = keyH-0x20;
+        putChar();
+        cx+=28;
+       if(cx>cxf) {cx=cxi; cy+=48;}
+       if(cy>cyf) {cx=cxi; cy=cyi;}
+       }  
+     }
+   }
+	
+       // putChar();
+function putChar() {
+	
+        var cnv = document.getElementById("canvas");
+        var ctx = cnv.getContext('2d');
+        var imgData = ctx.createImageData(24, 48);
+        
+        var fontBuf = new ArrayBuffer(24*4*48);
+        var fontView = new Uint8Array(fontBuf);
+             
+	var cb = new Uint8Array ([0x80,0x40,0x20,0x10,0x08,0x04,0x02,0x01]);
+	var fb; var k=0; 
+        for (let i=0; i<3*48; i++) { 
+            for (let j=0; j<8; j++) {
+                 fb = font2448[3*48*oh+i] & cb[j]; 
+                 if (fb) {
+		   fontView[k+0] = 0x00;
+                   fontView[k+1] = 0x00;
+		   fontView[k+2] = 0x00;
+		   fontView[k+3] = 0xFF;
+		    k+=4; 
+                   } else {
+		   fontView[k+0] = 0xFF; 
+		   fontView[k+1] = 0xFF;
+		   fontView[k+2] = 0xFF;
+		   fontView[k+3] = 0xFF;
+		    k+=4; 
+                   }
+		  
+              }
+          }
+        for (let i=0; i<24*4*48; i++) {
+             imgData.data[i] = fontView[i];
+              }
+        ctx.putImageData(imgData,cx+4, cy);   
+    
+     } 
+    
+	
+</script>
+	
+	
+<script>
+alert('1');
+
+var msgCntBuf = new ArrayBuffer(128*32); // 80*16
+var msgCntView = new Uint8Array(msgCntBuf);
+var msgCntArr = new Uint8Array(msgCntBuf);
+var msgCntPtr = 0;
+var ds2ptr1 = 0;
+var msgSize = 0;
+var ds2ptr1i=0; var ds2ptr1f=0;
+var chatbot=false;
+	
+
+var cx1=408; var cy1=208; var cw1=24; var ch1=48;
+var oh1=33;
+var cx1i=408; var cx1f=1080;
+var cy1i=208; var cy1f=1248;
+
+function putMsgCnt() {
+	var ptr1 = msgCntPtr;
+        ptr1 +=0;
+        if (ptr1>=128*32){ptr1==0;}
+	for(let i=0; i<cpr; i++) {
+		msgCntArr[ptr1+i] = msgArr[i];
+	}
+	msgCntArr[ptr1+127] = 0x00; // this devie
+        msgCntArr[ptr1+127] = cpr;  // message size
+}
+	
+</script>
+
+	
+<script>
+
+function message() {
+	sendMessage();
+	var i=0; var j=0; var k=0;
+        var t1 = setInterval(f1,0500);
+	function f1() {
+		var cnv = document.getElementById("canvas");
+		var ctx = cnv.getContext('2d');
+		if (k==0) {ctx.fillStyle = "black";}
+		if (k==1) {ctx.fillStyle = "white";}
+		ctx.fillRect(i, cy1+j, 8, 8);
+		i+=8;
+		if (i>8*3){i=0; if(k==0){k=1;}else{k=0;}}
+	}
+
+	setTimeout(function() {
+		clearInterval(t1);
+		replyChatbot();
+	}, 5000);
+}
+	
+function sendMessage() {
+	if (chatbot) {
+	} else {
+	putMsgCnt();
+	}
+	var cnv = document.getElementById("canvas");
+        var ctx = cnv.getContext('2d');
+          ctx.fillStyle = "white";
+          ctx.fillRect(124+14, 1416, 796-128+28-14, 48*2);
+          cx=cxi; cy=cyi;
+	
+	ctx.fillStyle = "white";
+        ctx.fillRect(0, 144, 1080, 1248);
+        cx1=cx1i; cy1=cy1i;
+	
+	var ptr1 = msgCntPtr;
+	
+        if (ptr1<128*8){
+		ds2ptr1i = 0;
+		ds2ptr1f = ptr1;
+	} else {
+		ds2ptr1i = ptr1-128*8;
+		ds2ptr1f = ptr1;
+	}
+        var j=((ds2ptr1f-ds2ptr1i)/128)+1;
+	for (let i=0; i<j; i++) {
+		updateMessage();
+		ds2ptr1i +=128;
+                if (ds2ptr1i >= 128*32) {
+			ds2ptr1i=0;
+		}
+	}
+	ptr1+=128;
+	if (ptr1>=128*32){ptr1=0;}
+	msgCntPtr = ptr1;
+}
+
+function updateMessage() {
+	
+        var minfo = msgCntArr[ds2ptr1i+126];
+	var msize = msgCntArr[ds2ptr1i+127];
+	
+        if (minfo==0x00) {  // this device
+		cx1i=632; cx1f=1080;
+                cy1i=208; cy1f=1248;
+                cx1=cx1i;
+		chatbot=false;
+	} else if (minfo==0x01) {  // chatbot
+		cx1i=0; cx1f=480;
+		cy1i=208; cy1f=1248;
+		cx1=cx1i;
+		chatbot=true;
+	} 
+         
+    for (let i=0; i<msize; i++) {
+        var kHex = msgCntArr[ds2ptr1i+i];
+	if (kHex==0x0A) {
+             cx1=cx1i; cy1+=64;
+	     if (cy1>=cy1f) {
+	     cx1=cx1i; cy1=cy1f;
+             // ctx.fillStyle = "white";
+             // ctx.fillRect(0, 144, 1080, 1248);
+             }
+         } else {
+            oh1=kHex-0x20;
+	    putChar1();
+	    cx1+=28;
+	    if (cx1>=cx1f) {cx1=cx1i; cy1+=64;}
+	    if (cy1>=cy1f) {
+	    cx1=cx1i; cy1=cy1i;
+           // ctx.fillStyle = "white";
+           // ctx.fillRect(0, 144, 1080, 1248);
+             }
+           }
+       }
+           
+             if (cx1==cx1i) {
+		   cx1=cx1i; cy1+=0;
+	     } else {
+		   cx1=cx1i; cy1+=64;
+		   if (cy1>=cy1f) {
+			  cx1=cx1i; cy1=cy1i;
+		   }
+              // ctx.fillStyle = "white";
+              // ctx.fillRect(0, 144, 1080, 1248);
+             } 
+           cls=0; cla=0; cpr=0;
+  }
+		
+</script>
+
+<script>
+	
+	putChar1();
+function putChar1() {
+        // var cx=16; var cy=208; var cw=32; var ch=64;
+        // var oh=kHex-0x20;
+        var cnv = document.getElementById("canvas");
+        var ctx = cnv.getContext('2d');
+        var imgData = ctx.createImageData(cw1, ch1);
+        
+        var fontBuf = new ArrayBuffer(cw1*4*ch1);
+        var fontView = new Uint8Array(fontBuf);
+             
+	var cb = new Uint8Array ([0x80,0x40,0x20,0x10,0x08,0x04,0x02,0x01]);
+	var fb; var k=0; 
+        for (let i=0; i<(cw1/8)*ch1; i++) { 
+            for (let j=0; j<8; j++) {
+                 fb = font2448[(cw1/8)*ch1*oh1+i] & cb[j]; 
+                 if (fb) {
+			if (chatbot) {
+				fontView[k+0] = 0x00;
+				fontView[k+1] = 0x00;
+				fontView[k+2] = 0x00;
+				fontView[k+3] = 0xFF;
+				k+=4; 
+			} else {
+				fontView[k+0] = 0x00;
+				fontView[k+1] = 0x00;
+				fontView[k+2] = 0xFF;
+				fontView[k+3] = 0xFF;
+				k+=4;
+			}
+                  } else {
+		  fontView[k+0] = 0xFF; 
+		  fontView[k+1] = 0xFF;
+		  fontView[k+2] = 0xFF;
+		  fontView[k+3] = 0xFF;
+		  k+=4; 
+                  }
+		  
+              }
+          }
+	for (let i=0; i<cw1*4*ch1; i++) {
+             imgData.data[i] = fontView[i];
+              }
+        ctx.putImageData(imgData,cx1+4, cy1);   
+    
+     } 
+	
+</script>
+	
+	
+<script>
+alert('1'); /*
+function replyChatbot() {
+	var rplbot= new Uint8Array([0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20]);
+	var msgbot= new Uint8Array([0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20]);
+	var ptr = msgCntPtr-128*1;
+	var minfo = msgCntArr[ptr+126];
+	var msize = msgCntArr[ptr+127];
+	
+	for(let i=0; i<msize; i++) {
+		msgbot[i] = msgCntArr[ptr+i];
+	}
+	ptr = ptr+128*1; var mchek = [0x48,0x4F,0x57]; // ,0x20,0x41,0x52,0x45,0x20,0x59,0x4F,0x55];
+	if (msgbot[0]==[0x48]&&msgbot[1]==[0x49]&&msize==[0x02]) {   // HI
+		rplbot= [0x48,0x45,0x4C,0x4C,0x4F,0x20,0x20,0x20];   // HELLO
+		for (let i=0; i<8; i++) {
+			msgCntArr[ptr+i] = rplbot[i];
+		}
+		msgCntArr[ptr+126] = 0x01; // chatbot
+		msgCntArr[ptr+127] = 0x08;
+		chatbot=true;
+		sendMessage();
+		chatbot=false;
+	} else if (JSON.stringify(msgbot)==JSON.stringify(mchek)) {   // HOW ARE YOU
+		rplbot= [0x46,0x49,0x4E,0x45,0x2E,0x20,0x59,0x4F,0x55,0x3F];   // FINE. YOU?
+		for (let i=0; i<10; i++) {
+			msgCntArr[ptr+i] = rplbot[i];
+		}
+		msgCntArr[ptr+126] = 0x01; // chatbot
+		msgCntArr[ptr+127] = 0x0A;
+		chatbot=true;
+		sendMessage();
+		chatbot=false;
+	} else {
+		rplbot= [0x48,0x41,0x56,0x45,0x20,0x41,0x20,0x4E,
+			 0x49,0x43,0x45,0x20,0x44,0x41,0x59,0x0A,
+			 0x54,0x48,0x41,0x4E,0x4B,0x20,0x59,0x4F,
+			 0x55];     // HAVE A NICE DAY\nTHANK YOU
+		for (let i=0; i<25; i++) {
+			msgCntArr[ptr+i] = rplbot[i];
+		}
+		msgCntArr[ptr+126] = 0x01; // chatbot
+		msgCntArr[ptr+127] = 0x19;
+		chatbot=true;
+		sendMessage();
+		chatbot=false;
+	}
+} */
+	
+</script>
+	
+	
+<script>
+	
+alert('1'); 
+	// mchk = mbot[i][0][0][j];
+	// mcsz = mbot[i][0][1][0];
+	// mrpl = mbot[i][1][0][j];
+	// mrsz = mbot[i][1][1][0];
+	
+    var mbot = [[[[0x48,0x49],[0x02]],  // HI
+		 [[0x48,0x49],[0x02]]], // HI
+		[[[0x48,0x45,0x4C,0x4C,0x4F],[0x05]],  // HELLO
+		 [[0x48,0x45,0x4C,0x4C,0x4F],[0x05]]], // HELLO
+		[[[0x42,0x59,0x45],[0x03]], //BYE
+		 [[0x42,0x59,0x45,0x20,0x42,0x59,0x45],[0x07]]], //BYE BYE
+		[[[0x54,0x48,0x41,0x4E,0x4B,0x20,0x59,0x4F,0x55],[0x09]], // THANK YOU
+		 [[0x57,0x45,0x4C,0x43,0x4F,0x4D,0x45],[0x07]]], // WELCOME
+		[[[0x48,0x4F,0x57,0x20,0x41,0x52,0x45,0x20,0x59,0x4F,0x55],[0x0B]], // HOW ARE YOU
+		 [[0x46,0x49,0x4E,0x45,0x2E,0x20,0x59,0x4F,0x55,0x3F],[0x0A]]], // FINE. YOU?
+		[[[0x46,0x49,0x4E,0x45],[0x04]], // FINE
+		 [[0x47,0x4F,0x4F,0x44],[0x04]]], // GOOD
+		[[[0x57,0x48,0x41,0x54,0x20,0x41,0x52,0x45,0x20,0x59,0x4F,0x55,0x20,0x44,0x4F,0x49,0x4E,0x47],[0x12]], //
+		 [[0x4E,0x4F,0x54,0x48,0x49,0x4E,0x47],[0x07]]], // NOTHING
+		[[[0x47,0x4F,0x4F,0x44,0x20,0x4D,0x4F,0x52,0x4E,0x49,0x4E,0x47],[0x0C]], // GOOD MORNING
+		 [[0x47,0x4F,0x4F,0x44,0x20,0x4D,0x4F,0x52,0x4E,0x49,0x4E,0x47],[0x0C]]], // GOOD MORNING
+		[[[0x47,0x4F,0x4F,0x44,0x20,0x45,0x56,0x45,0x4E,0x49,0x4E,0x47],[0x0C]], // GOOD EVENING
+		 [[0x47,0x4F,0x4F,0x44,0x20,0x45,0x56,0x45,0x4E,0x49,0x4E,0x47],[0x0C]]], // GOOD EVENING
+		[[[0x47,0x4F,0x4F,0x44],[0x04]], // GOOD
+		 [[0x54,0x48,0x41,0x4E,0x4B,0x20,0x59,0x4F,0x55],[0x09]]], // THANK YOU
+	        [[[],[]],
+		 [[],[]]],
+	        [[[],[]],
+		 [[],[]]],
+		[[[],[]],
+		 [[],[]]],
+		[[[],[]],
+		 [[],[]]],
+		[[[],[]],[[],[]]],
+		[[[],[]],[[],[]]],
+		[[[],[]],[[],[]]],
+		[[[],[]],[[],[]]] ]; //
+    var mcnt = [0x0A] //
+	    
+        var mchek = [[0x48,0x49], // HI
+		     [0x48,0x45,0x4C,0x4C,0x4F], // HELLO
+                     [0x48,0x4F,0x57,0x20,0x41,0x52,0x45,0x20,0x59,0x4F,0x55], // HOW ARE YOU
+                     [0x47,0x4F,0x4F,0x44,0x20,0x4D,0x4F,0x52,0x4E,0x49,0x4E,0x47], //GOOD MORNING
+		     [0x47,0x4F,0x4F,0x44,0x20,0x45,0x56,0x45,0x4E,0x49,0x4E,0x47], //GOOD EVENING
+		     [0x46,0x49,0x4E,0x45], // FINE
+		     [0x54,0x48,0x41,0x4E,0x4B,0x20,0x59,0x4F,0x55], // THANK YOU
+		     [0x42,0x59,0x45], // BYE
+		     [0x57,0x48,0x41,0x54,0x20,0x41,0x52,0x45,0x20,0x59,0x4F,0x55,0x20,0x44,0x4F,0x49,0x4E,0x47],
+		     [[[],[]],[[],[]]] ]; // 
+		    
+       var mreply = [[0x48,0x49], // HI
+		     [0x48,0x45,0x4C,0x4C,0x4F], // HELLO
+		     [0x46,0x49,0x4E,0x45,0x2E,0x20,0x59,0x4F,0x55,0x3F], // FINE. YOU?
+		     [0x47,0x4F,0x4F,0x44,0x20,0x4D,0x4F,0x52,0x4E,0x49,0x4E,0x47], // GOOD MORNING
+		     [0x47,0x4F,0x4F,0x44,0x20,0x45,0x56,0x45,0x4E,0x49,0x4E,0x47], // GOOD EVENING
+		     [0x47,0x4F,0x4F,0x44], // GOOD
+		     [0x57,0x45,0x4C,0x43,0x4F,0x4D,0x45], // WELCOME
+		     [0x42,0x59,0x45,0x20,0x42,0x59,0x45], // BYE BYE 
+		     [0x4E,0x4F,0x54,0x48,0x49,0x4E,0x47], // NOTHING
+		     []];
+	
+       var mcsize = [[0x02], //
+		     [0x05], //
+		     [0x0B], //
+		     [0x0C], //
+		     [0x0C], //
+		     [0x04], //
+		     [0x09], // THANK YOU
+		     [0x03], // BYE 
+		     [0x12],
+		     []];
+	
+       var mrsize = [[0x02], //
+		     [0x05], //
+		     [0x0A], //
+		     [0x0C], //
+		     [0x0C], //
+		     [0x04], //
+		     [0x07], // WELCOME
+		     [0x07], // BYE BYE 
+		     [0x07],
+		     []];
+	
+	var mtcnt =  [0x09] //
+	
+function replyChatbot() {
+	var rplbot= new Uint8Array(128);
+	var msgbot= new Uint8Array(128);
+	var ptr = msgCntPtr-128*1;
+	var minfo = msgCntArr[ptr+126];
+	var msize = msgCntArr[ptr+127];
+	
+	for(let i=0; i<msize; i++) {
+		msgbot[i] = msgCntArr[ptr+i];
+	}
+	ptr = ptr+128*1;
+	
+	var b=true;
+        var k=0;;
+       for (let i=0; i<mcnt; i++) {
+	for (let j=0; j<msize; j++) {
+               if (mbot[i][0][0][j]==msgbot[j]) {
+		    b=true;
+	       } else {b=false; break;}
+            }
+	     if (b&&mbot[i][0][1][0]==msize) {b=true; k=i; break;}
+	}
+	if (b) {
+		
+		for (let i=0; i<mbot[k][1][1][0]; i++) {
+			msgCntArr[ptr+i] = mbot[k][1][0][i];
+		}
+		msgCntArr[ptr+126] = 0x01; // chatbot
+		msgCntArr[ptr+127] = mbot[k][1][1][0];
+		chatbot=true;
+		sendMessage();
+		chatbot=false;
+	} else {
+		rplbot= [0x48,0x41,0x56,0x45,0x20,0x41,0x20,0x4E,
+			 0x49,0x43,0x45,0x20,0x44,0x41,0x59,0x0A,
+			 0x54,0x48,0x41,0x4E,0x4B,0x20,0x59,0x4F,
+			 0x55];     // HAVE A NICE DAY\nTHANK YOU
+		for (let i=0; i<25; i++) {
+			msgCntArr[ptr+i] = rplbot[i];
+		}
+		msgCntArr[ptr+126] = 0x01; // chatbot
+		msgCntArr[ptr+127] = 0x19;
+		chatbot=true;
+		sendMessage();
+		chatbot=false;
+	} 
+		
+	/*if (msgbot[0]==[0x48]&&msgbot[1]==[0x49]&&msize==[0x02]) {   // HI
+		rplbot= [0x48,0x45,0x4C,0x4C,0x4F,0x20,0x20,0x20];   // HELLO
+		for (let i=0; i<8; i++) {
+			msgCntArr[ptr+i] = rplbot[i];
+		}
+		msgCntArr[ptr+126] = 0x01; // chatbot
+		msgCntArr[ptr+127] = 0x08;
+		chatbot=true;
+		sendMessage();
+		chatbot=false; var mchek = [0x48,0x4F,0x57,0x20,0x41,0x52,0x45,0x20,0x59,0x4F,0x55];
+	} else if (JSON.stringify(msgbot)==JSON.stringify(mchek)) {   // HOW ARE YOU
+		rplbot= [0x46,0x49,0x4E,0x45,0x2E,0x20,0x59,0x4F,0x55,0x3F];   // FINE. YOU?
+		for (let i=0; i<10; i++) {
+			msgCntArr[ptr+i] = rplbot[i];
+		}
+		msgCntArr[ptr+126] = 0x01; // chatbot
+		msgCntArr[ptr+127] = 0x0A;
+		chatbot=true;
+		sendMessage();
+		chatbot=false;
+	} else {
+		rplbot= [0x48,0x41,0x56,0x45,0x20,0x41,0x20,0x4E,
+			 0x49,0x43,0x45,0x20,0x44,0x41,0x59,0x0A,
+			 0x54,0x48,0x41,0x4E,0x4B,0x20,0x59,0x4F,
+			 0x55];     // HAVE A NICE DAY\nTHANK YOU
+		for (let i=0; i<25; i++) {
+			msgCntArr[ptr+i] = rplbot[i];
+		}
+		msgCntArr[ptr+126] = 0x01; // chatbot
+		msgCntArr[ptr+127] = 0x19;
+		chatbot=true;
+		sendMessage();
+		chatbot=false;
+	} */
+}
+	
+</script>
+	
+	
+<script>
+	
+function messageTotalSize() {
+	var j=((ds2ptr1f-ds2ptr1i)/128)+1;
+                for (let i=0; i<j; i++) {
+                       var msize=msgCntPtr[ds2ptr1i+127];
+			for (let k=0; k<msize; k++) {
+                                var l=msize;
+				for (k>=24) {
+					mtsize++;
+					l-=24;
+                                }
+			}
+		}
+}
+	
+</script>
+	
+	
+<script>
+	
+var cx2=412; var cy2=208; var cw2=24; var ch2=48;
+var oh2=33;
+function sendMessage2() {
+
+       var cnv = document.getElementById("canvas");
+       var ctx = cnv.getContext('2d');
+          ctx.fillStyle = "white";
+          ctx.fillRect(124+14, 1416, 796-128+28-14, 48*2);
+          cx=cxi; cy=cyi;
+	
+        /* cx1=412; cy1+=64;
+	if (cy1>1392-64) {
+               cx1=412; cy1=208;
+               ctx.fillStyle = "white";
+               ctx.fillRect(0, 144, 1080, 1247);
+               } */
+	
+        /* ctx.beginPath();
+        ctx.lineWidth = "4";
+        ctx.strokeStyle = "blue";
+        ctx.rect(0, 208, 640, 160);
+        ctx.stroke(); */
+          
+         
+    for (let i=0; i<cpr; i++) {
+        var kHex = msgArr[i];
+	if (kHex==0x0A) {
+             cx2=412; cy2+=64;
+	     if (cy2>1392-64) {
+	     cx2=412; cy2=208;
+             ctx.fillStyle = "white";
+             ctx.fillRect(0, 144, 1080, 1247);
+             }
+         } else {
+            oh2=kHex-0x20;
+	    putChar2();
+	    cx2+=28;
+	    if (cx2>1080-28) {cx2=416; cy2+=64;}
+	    if (cy2>1392-64) {
+	    cx2=412; cy2=208;
+            ctx.fillStyle = "white";
+            ctx.fillRect(0, 144, 1080, 1247);
+             }
+           }
+         }
+           cx2=412; cy2+=64;
+           if (cy2>1392-64) {
+               cx2=412; cy2=208;
+               ctx.fillStyle = "white";
+               ctx.fillRect(0, 144, 1080, 1247);
+               } 
+       
+           cls=0; cla=0; cpr=0;
+    }
+    for (let i=0; i<cw2*4*ch2; i++) {
+             imgData.data[i] = fontView[i];
+              }
+        ctx.putImageData(imgData,cx2+4, cy2);   
+    
+ } 
+	
+</script>
+	
+	
+<script>
+	
+// putChar2();
+function putChar2() {
+        // var cx=16; var cy=208; var cw=32; var ch=64;
+        // var oh=kHex-0x20;
+        var cnv = document.getElementById("canvas");
+        var ctx = cnv.getContext('2d');
+        var imgData = ctx.createImageData(cw2, ch2);
+        
+        var fontBuf = new ArrayBuffer(cw2*4*ch2);
+        var fontView = new Uint8Array(fontBuf);
+             
+	var cb = new Uint8Array ([0x80,0x40,0x20,0x10,0x08,0x04,0x02,0x01]);
+	var fb; var k=0; 
+        for (let i=0; i<(cw2/8)*ch2; i++) { 
+            for (let j=0; j<8; j++) {
+                 fb = font2448[(cw2/8)*ch2*oh2+i] & cb[j]; 
+                 if (fb) {
+		   fontView[k+0] = 0x00;
+                   fontView[k+1] = 0x00;
+		   fontView[k+2] = 0x00;
+		   fontView[k+3] = 0xFF;
+		    k+=4; 
+                   } else {
+		   fontView[k+0] = 0xFF; 
+		   fontView[k+1] = 0xFF;
+		   fontView[k+2] = 0xFF;
+		   fontView[k+3] = 0xFF;
+		    k+=4; 
+                   }
+		  
+              }
+          }
+        for (let i=0; i<cw2*4*ch2; i++) {
+             imgData.data[i] = fontView[i];
+              }
+        ctx.putImageData(imgData,cx2+4, cy2);   
+    
+     } 
+	
+</script>
+	
+	
+<script>
+
+
+
+</script>
+	
+	
+<script>
+	
+	
+       // displayChar1();
+function displayChar1() {
+        var cb = [0b10000000,0b01000000,0b00100000,0b00010000
+		  0b00001000,0b00000100,0b00000010,0b00000001];
+        var fb;
+	var cnv = document.getElementById("canvas");
+        var ctx = cnv.getContext('2d');
+        var imgData = ctx.createImageData(32, 64);
+        // imgData.data[0] = ubuntuFont[0];
+        var fontBuf = new ArrayBuffer(32*4*64);
+        var fontView = new Uint8Array(buffer);
+            var k=0;
+        for (let i=0; i<4*64; i++) {
+            for (let j=0; j<8; j++) {
+                 fb = ubuntuFont[i+j] & cb[j];  //0b10000000;
+                 if (fb) {
+		   fontView[i+j+k+0] = 0xFF;
+                 } else {
+		   fontView[i+j+k+0] = 0x00; 
+	         }
+		   fontView[i+j+k+1] = 0x00;
+		   fontView[i+j+k+2] = 0x00;
+		   fontView[i+j+k+3] = 0xFF;
+		    k+=4;
+              }
+          }
+        for (let i=0; i<32*4*64; i++) {
+             imgData.data[i] = fontView[i];
+              }
+        ctx.putImageData(imgData,16,208);
+     }
+    
+	
+</script>
+
+	
+	
+	
+<script>
+/*  alert('1'); 
+ function screen1() {
+	 // var c1=true; 
+/// while(c1) {
+    
+  //  var cx=0, cy=0, cw=1080, ch=2400-112-112; // 2176
+    var cvs = document.getElementById("canvas");
+    var ctx = cvs.getContext('2d');
+	    
+        
+        var image1 = new Image();  // dp 144
+       // image1.setAttribute('crossOrigin', 'anonymous');
+        image1.src = 'dp2.png'; 
+        image1.onload = function (e) { // c1 = false;
+      //  var x = cx;
+      // var y = cy;
+// var w = cw;
+//var h = 144;
+          ctx.drawImage(image1, 0, 0,1080,144);
+        }; 
+ } */
+      /*  chk=true; while(chk) {
+	var image2 = new Image();  // text 144
+        image2.setAttribute('crossOrigin', 'anonymous');
+        image2.src = 'text4.png'; 
+        image2.onload = function (e) {
+	var x = cx;
+	var y = ch-144-640-1+640;  // 1391+640=2031
+	var w = cw;
+	var h = 144;
+          context.drawImage(image2, x, y, w, h);
+        }; */
+
+ /* chk=true; while(chk) {
+  function handleEnd(evt) {
+       evt.preventDefault();
+       var el = document.getElementById("canvas");
+       var ctx = el.getContext("2d");
+       var touches = evt.changedTouches;
+       var  x = touches[0].pageX; cordx = x;
+       var  y = touches[0].pageY; cordy = y;
+    
+	     if (x>135 && x<704 && y>2031 && y<2175) {
+               chk=false;  screen2();
+                 }
+       }
+       
+       canvas.addEventListener("touchend", handleEnd, false);
+       } */
+   
+
+  
+</script>
+
+<script>
+  /* alrrt('2');
+  function screen2() { */
+	
+  /*  var cx=0, cy=0, cw=1080, ch=2400-112-112; // 2176
+    var canvas = document.getElementById("canvas");
+    var context = canvas.getContext('2d');
+	 
+    var image2 = new Image();  // text 144
+        image2.setAttribute('crossOrigin', 'anonymous');
+        image2.src = 'text4.png';
+        image2.onload = function (e) {
+	var x = cx;
+	var y = ch-144-640-1;  // 1391
+	var w = cw;
+	var h = 144;
+          context.drawImage(image2, x, y, w, h);
+        };
+        
+        var image3 = new Image();  // keypad 640
+        image3.setAttribute('crossOrigin', 'anonymous');
+        image3.src = 'keypad1.png';
+        image3.onload = function (e) {
+	var x = cx;
+	var y = ch-640-1;    // 1535
+	var w = cw;
+	var h = 640;
+          context.drawImage(image3, x, y, w, h);
+        }; */
+	 
+     /*  var cordx, cordy;
+       var ci = 16; var cj = 208; 
+  function textMessage() {
+       var x = cordx;
+       var y = cordy;
+       readQwerty();
+       var keyC = keyChar; 
+       if(keyC == "SI") { 
+       } else if(keyC == "DEL") {
+              ctx.fillStyle = "white";
+              ctx.fillRect(0, 144, 1080, 1247);
+              ci=16; cj=208;
+       } else if(keyC == "DC1") { 
+       } else if(keyC == "DC2") {
+       } else if(keyC == "Space") {
+              if(ci>1080-48) {ci=16; cj+=64;}
+              if(cj>1392-64) {ci=16; cj=208;}
+	       ci+=48;
+       } else if(keyC == "DC3") {
+              if(cj>1392-64) {ci=16; cj=208;}
+	      ci=16; cj+=64;
+       } else {
+             if(ci>1080-48) {ci=16; cj+=64;}
+             if(cj>1392-64) {ci=16; cj=208;}
+             ctx.font = "48px Arial";
+             ctx.fillStyle = "red";
+             ctx.fillText(keyC, ci, cj);
+             ci+=48;
+        } 
+     }   */
+    
+/* while(true) {
+  function handleEnd(evt) {
+       evt.preventDefault();
+       var el = document.getElementById("canvas");
+       var ctx = el.getContext("2d");
+       var touches = evt.changedTouches;
+       var  x = touches[0].pageX; cordx = x;
+       var  y = touches[0].pageY; cordy = y;
+	  
+       if (x>0 && x<1080 && y>1535 && y<2175) { 
+       // textMessage();
+           }
+       }
+	 
+    canvas.addEventListener("touchend", handleEnd, false);
+    } 
+    
+ }  */ 
+  
+</script>
+  
+<script>
+  
+</script>
+  
+<script>
+  
+</script>
+  
+<script>
+  
+</script>
+  
+<script>
+  
+</script>
+	
+</body>
+</html>
