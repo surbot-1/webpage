@@ -1,0 +1,581 @@
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+           <!--      maximum-scale=1.0, user-scalable=no">  -->
+    <title>editApp</title>
+</head>
+<body style="background-color:aliceblue">
+  <div id="maindiv"  style="background-color:lightgray; width:1080px; height:1540px; border: 1px solid black ">
+  
+    <div id="div1"  style=" width:1080px;  border: 1px solid blue; color:red; font-size:32px " >
+     Welcome to editApp FamilyDay 
+    </div>
+    
+    <div id="div2"  style="  width:1080px;  border: 1px solid blue; font-size:32px " >
+    <input type="password" placeholder="Username" id="usernameField">
+    <input type="text" onkeydown="onKeyDown()" placeholder="Name" id="nameField2"> <br>
+    <input type="password" placeholder="Password" id="passwordField"> 
+    <button onclick = "gotoSignup()"> Signup </button> 
+       Login
+    <button onclick = "gotoLogin()"> Login </button> <br>
+   <!-- <input type="text" placeholder="Name" id="nameField">
+    <input type="number" placeholder="Phone" id="phonedField">  -->
+    
+    <p id="div2p1"></p>
+    </div>
+    
+    
+    <div id="div3"  style="  width:1080px;  border: 1px solid blue; font-size:32px" >
+    Name <input type="text" onkeydown="onKeyDown()" placeholder="Name" id="nameField">
+    Message <button onclick = "messageClear()"> Clear </button> <br> 
+    </div>
+    
+    <!--  <div>
+    <button onclick = "writeEditAppOnlineSatatus()"> writeEditAppOnlineSatatus </button>
+    <button onclick = "readEditAppOnlineSatatus()"> readEditAppOnlineSatatus </button>
+    <div/>  -->
+    
+    
+    <div id="div4"  style="  width:1080px;  border: 1px solid blue; font-size:32px" ></div>
+    <div id="div5"  style="  width:1080px;  border: 1px solid blue; font-size:32px" ></div>
+    
+    <div id="div6"  style="  width:1080px; height:1280px; border: 1px solid blue; font-size:32px " >
+    </div>
+    
+    <!--
+    <div id="div6" style = " height:400px; width:400px; background-color:white; border: 1px solid red; font-size:16px " >
+    </div>
+        -->
+    <!--
+    <div id="div5dwn"  style="  width:500px;  border: 1px solid red; font-size:16px " >
+        <textarea  rows = "20" cols = "50" id="textField"></textarea>
+    </div>  -->
+    
+    <div id="div6a"></div>
+    <div id="div7"></div>
+    <div id="div8"></div>
+    
+    <div id="div8dwn"  style="  width:1080px;  border: 1px solid blue; font-size:32px " >
+    <!-- Name <input type="text" onkeydown="onKeyDown()" placeholder="Name" id="nameField">
+    Message <button onclick = "messageClear()"> Clear </button> <br>   -->
+    <textarea style = "background-color:white"  rows = "4" cols = "40" placeholder="Message" id="messageField"></textarea>
+    <button onclick = "sendMessage()"> Send </button>
+    </div>
+    
+
+    
+    <div id="root" ></div>
+    <div> <p id="root2"></p> </div>
+    
+   </div>
+<!--
+<canvas id="canvas" width="1080" height="640" style="border:solid black 1px;">
+  Your browser does not support canvas element.
+</canvas> -->
+      
+   <script src="https://cdn.jsdelivr.net/gh/joeymalvinni/webrtc-ip/dist/production.min.js"></script>
+   <!---- OR use the dev bundle: ----->
+   <script src="https://cdn.jsdelivr.net/gh/joeymalvinni/webrtc-ip/dist/bundle.dev.js"></script>
+    
+   <script type ="text/javascript" src="datetime.js"></script>
+    
+    <!--
+    <script src="https://cdn.jsdelivr.net/gh/joeymalvinni/webrtc-ip/dist/bundle.dev.js"></script>
+    -->
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.3/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.3/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.3/firebase-database.js"></script>
+
+    <script>
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      /*
+       var firebaseConfig = {
+        apiKey: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        authDomain: "tutorial-1b13c.firebaseapp.com",
+        projectId: "tutorial-1b13c",
+        storageBucket: "tutorial-1b13c.appspot.com",
+        messagingSenderId: "778382154294",
+        appId: "yyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+        measurementId: "G-5WR3S3W0N2"
+      };
+       */
+       const firebaseConfig = {
+  apiKey: "AIzaSyCmNVaTr8sTKQVSqZprpBK-AMTpUsNPUGs",
+  authDomain: "surbot-v1-1.firebaseapp.com",
+  databaseURL: "https://surbot-v1-1-default-rtdb.firebaseio.com",
+  projectId: "surbot-v1-1",
+  storageBucket: "surbot-v1-1.appspot.com",
+  messagingSenderId: "702504911981",
+  appId: "1:702504911981:web:6d1fea970a851c7ff3ab64"
+  };
+    
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
+        
+        var username ; // = document.getElementById("usernameField").value ;
+        var password ; // = document.getElementById("passwordField").value ;
+        var name ;     // = document.getElementById("nameField").value ;
+        var message ;  // = document.getElementById("messageField").value ;
+        var chat = false;
+        var userSignup = false;
+        var phone, typingStatus, date, time, aIP ;
+        var aName, bPhone, cUsername, dPassword, bStatus, cDate, dIP, eTyping ;
+        var dateTime, status, readEAOS = false, writeEAOS = false ;
+        var ipReceived=false;
+     
+               getIP();
+     function gotoLogin() { 
+             document.querySelector('#div2p1').innerHTML = "Please wait...";
+                 getLoginInfo();
+                 getEditAppUserInfo2();
+             setTimeout(function(){
+             if (username == cUsername && password == dPassword) {
+                  chat = true; 
+                 getDateTime();
+              firebase.database().ref("editAppUserInfo/login").set({
+              // a_Name: name, 
+              // b_Phone: phone, 
+              e_Date: dateTime, 
+              f_IP: aIP
+              });
+                  document.querySelector('#div1').innerHTML = "";
+                  document.querySelector('#div2').innerHTML = "";
+                  initiateChat();
+                 //  updateOnlineStatus();
+                //  readEditAppOnlineStatus();
+                //  writeEditAppOnlineStatus();
+                //  takeSnapshot();
+                  }
+                  
+              else { 
+                  chat = false; 
+                  // alert('Wrong Username and Password!');
+                  document.querySelector('#div2p1').innerHTML = "";
+                  document.querySelector('#div2p1').innerHTML += "Wrong Username and Password !";
+                   } 
+                  } , 5000 );
+                }
+              function getLoginInfo() {
+                  username = document.getElementById("usernameField").value ;
+                  password = document.getElementById("passwordField").value ;
+                  // name = document.getElementById("nameField").value ;
+                  // phone = document.getElementById("phoneField").value ;
+                  } 
+               function getEditAppUserInfo2() {
+                 var aRef = firebase.database().ref("editAppUserInfo/basic");
+                 aRef.once("value", function(snapshot) {
+                 // aName = snapshot.child("a_Name").val();
+                 // bPhone = snapshot.child("b_Phone").val();
+                 cUsername = snapshot.child("c_Username").val();
+                 dPassword = snapshot.child("d_Password").val();
+                  });
+                 }  
+               
+      
+      function gotoSignup() {
+              getDateTime();
+              getSignupInfo();
+              getEditAppUserInfo();
+          firebase.database().ref("editAppUserInfo/basic").set({
+              // a_Name: name, 
+              // b_Phone: phone, 
+              c_Username: username, 
+              d_Password: password
+              });
+          firebase.database().ref("editAppUserInfo/signup").set({
+              // a_Name: name, 
+              // b_Phone: phone, 
+              e_Date: dateTime, 
+              f_IP: aIP
+              });
+              document.querySelector('#div2p1').innerHTML = "Please wait..." ;
+              setTimeout(wait1, 15000);
+             }
+          function getSignupInfo() {
+              // name = document.getElementById("nameField").value ;
+              // phone = document.getElementById("phoneField").value ;
+              username = document.getElementById("usernameField").value ;
+              password = document.getElementById("passwordField").value ;
+               }
+           function getEditAppUserInfo() {
+                 var aRef = firebase.database().ref("editAppUserInfo/basic");
+                 aRef.once("value", function(snapshot) {
+                 // aName = snapshot.child("a_Name").val();
+                 // bPhone = snapshot.child("b_Phone").val();
+                 cUsername = snapshot.child("c_Username").val();
+                 dPassword = snapshot.child("d_Password").val();
+                   });
+                  }
+           function wait1() {
+                  document.querySelector('#div2p1').innerHTML = "" ;
+                  document.querySelector('#div2p1').innerHTML += "Signup done" ;
+                  document.querySelector('#div2p1').innerHTML += '<br>' + "Username:" + cUsername ;
+                  document.querySelector('#div2p1').innerHTML += '<br>' + "Password:" + dPassword ;
+                  }
+       
+      function sendMessage() {  if(chat) {
+            getMessage();
+            getDateTime();
+            firebase.database().ref("editAppMessage").set({
+            a_Name: name, 
+            b_Message: message, 
+            c_Date: dateTime, 
+            d_IP: aIP 
+             }); 
+            document.getElementById("messageField").value = "";
+            
+          // getDateTime();
+            typingStatus = "sent message" + " " + dateTime ;
+            writeEAOTS();
+               } else {
+                   document.querySelector('#div2p1').innerHTML = "Please Login with Username and Password";
+                    }
+             }
+      
+        
+       function getMessage() {
+              name = document.getElementById("nameField").value ;
+              message = document.getElementById("messageField").value ;
+              }
+        
+      
+        
+              // takeSnapshot();
+       function takeSnapshot() { 
+               var ref = firebase.database().ref("editAppMessage"); 
+               ref.on("value", function(snapshot) { // newline();
+               aName = snapshot.child("a_Name").val();
+               bMessage = snapshot.child("b_Message").val();
+               cDate = snapshot.child("c_Date").val();
+              // dIP = snapshot.child("d_IP").val();                          
+              //  snapshot.forEach(function(element) { newline();
+               document.querySelector('#div6').innerHTML += aName+" "+cDate+"<br>"+bMessage+"<br>"+"<br>";
+              // // document.getElementById("textField").value += aName+" "+cDate+"\n"+bMessage+"\n"+"\n";
+               // document.querySelector('#root').innerHTML +=`
+               // <div>${element.val()}<\div>
+               // ` 
+               //  }); 
+               });
+              }
+        
+        // OnlineStatus();
+        function updateOnlineStatus() { 
+                 if (navigator.onLine) {
+                   status = "online";
+                   document.querySelector('#div4').innerHTML = "You are online" ;
+                     } else {
+                      document.querySelector('#div4').innerHTML = "You are offline" ;
+                      status = "offline" ;
+                      }
+                    } 
+        
+        function readEditAppOnlineSessage() { 
+              var bRef = firebase.database().ref("editAppMessage"); 
+               bRef.once("value", function(snapshot) {
+               aName = snapshot.child("a_Name").val();
+               bMessage = snapshot.child("b_Message").val();
+               cDate = snapshot.child("c_Date").val();
+              // dIP = snapshot.child("d_IP").val();
+              // eTyping = snapshot.child("e_Typing").val();
+               document.querySelector('#div6').innerHTML += aName + " " + cDate + "<br>" + bMessage + "<br>" + "<br>" ;
+             // //  document.getElementById("textField").value = aName+" "+cDate+"\n"+bMessage+"\n"+"\n";
+              // document.querySelector('#div6').innerHTML += ' ' + dIP ;
+              // readEAOS = true; //  writeEditAppOnlineStatus();
+                }); 
+              }
+        
+                    
+        
+         // readEditAppOnlineStatus();
+        function readEditAppOnlineStatus() { 
+              var bRef = firebase.database().ref("editAppOnline"); 
+               bRef.once("value", function(snapshot) {
+               aName = snapshot.child("a_Name").val();
+               bStatus = snapshot.child("b_Status").val();
+               cDate = snapshot.child("c_Date").val();
+               dIP = snapshot.child("d_IP").val();
+              // eTyping = snapshot.child("e_Typing").val();
+               document.querySelector('#div4').innerHTML = aName + " " + bStatus + " " + cDate ;
+               document.querySelector('#div4').innerHTML += " " + dIP ;
+              // readEAOS = true; //  writeEditAppOnlineStatus();
+                }); 
+              }
+          
+               
+            
+             
+        
+      // writeEditAppOnlineSatatus();
+       function writeEditAppOnlineSatatus() { 
+              getName();
+              getOnlineStatus();
+              getDateTime();
+              // getIP();
+              firebase.database().ref("editAppOnline").set({
+              a_Name: aName , 
+              b_Status: status , 
+              c_Date: dateTime, 
+              d_IP: aIP 
+             // e_Typing: "typing..."
+               }); 
+              }
+        
+        
+          
+        function readEAOTS() { 
+              var bRef = firebase.database().ref("editAppOnlineTyping"); 
+               bRef.once("value", function(snapshot) {
+               aName = snapshot.child("a_Name").val();
+             //  bStatus = snapshot.child("b_Status").val();
+             //  cDate = snapshot.child("c_Date").val();
+              // dIP = snapshot.child("d_IP").val();
+               eTyping = snapshot.child("e_Typing").val();
+             //  document.querySelector('#div5').innerHTML = aName + " " + bStatus + " " + cDate ;
+               document.querySelector('#div5').innerHTML = aName + " " + eTyping ;
+                }); 
+               }
+                
+              
+        function writeEAOTS() { 
+              getName();
+           //  getOnlineStatus();
+           //   getDateTime();
+           // getIP();
+              firebase.database().ref("editAppOnlineTyping").set({
+              a_Name: aName , 
+           //   b_Status: status , 
+           //  c_Date: dateTime, 
+           // d_IP: dIP,   
+              e_Typing: typingStatus
+               });
+              }
+              
+        
+       function getName() {
+              aName = document.getElementById("nameField").value ;
+              }  
+       
+        function newline() {
+               document.querySelector('#div6').innerHTML += '<br>' ;
+               }  
+        
+        function getOnlineStatus() { 
+                  if (navigator.onLine) {
+                     status = "online";
+                      } else {
+                      status = "offline";
+                      }
+                     }
+        
+                       
+                        
+                 
+      /*  function getDateTime() {  
+              var today = new Date();
+                  date =  today.getDate() + "." + (today.getMonth()+1) + "." + today.getFullYear();
+                  time= today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+              dateTime = date +" "+ time;
+              } */
+        
+   
+    function getIP() {
+        var eIP=[];
+        (async function () {
+         let  data = await getIPs();
+             for(let i = 0; i < 2; i++){
+                  eIP[i]=data[i];
+                 if (i==1 && data[i]!=null) {
+                  ipReceived=true;
+                  aIP= eIP[1];
+                 }
+                }
+             })();
+           }  
+               
+        
+        function detectOnline() {
+               if (navigator.onLine) {
+                   if (!ipReceived){
+                        getIP();
+                        // ipReceived=true;
+                        }
+                } else {
+                   ipReceived=false;
+                   }
+              }
+        
+        function messageClear() {
+               document.querySelector('#div6').innerHTML = "";
+               readEditAppOnlineSessage();
+              // takeSnapshot();
+              // readEditAppOnlineSatatus(); 
+              // writeEditAppOnlineStatus();
+             //  initiateChat();
+                document.querySelector('#div5').innerHTML = aIP ;
+                }
+        
+        
+        document.getElementById("messageField").addEventListener("keyup", keyDown);
+        
+        function keyDown(e) {
+            var input= document.getElementById("messageField") ;
+            if (input.textLength == 1) {
+                getDateTime();
+                typingStatus = "typing..." + " " + dateTime ;
+                writeEAOTS();
+                // writeEditAppOnlineSatatus();
+                }
+            if (e.key === "Enter") {
+                  sendMessage();
+               // document.getElementById("messageField").value = "";
+               }
+            }
+         
+                  
+        
+         function onKeyDown() {
+               //  document.querySelector('#div6').innerHTML += '<br>' + "You are typing..." ;
+                
+                  }
+ 
+                      
+ 
+        
+        function initiateChat() {
+                
+                updateOnlineStatus();
+                takeSnapshot();
+          //  setInterval(readEditAppOnlineStatus, 0001);
+           // setInterval(writeEditAppOnlineStatus, 0001);
+          //  setInterval( check, 0001 );
+               // readEditAppOnlineSatatus();
+               // writeEditAppOnlineStatus();
+              //  setTimeout(writeEditAppOnlineStatus, 2000);
+             //   setTimeout(readEditAppOnlineStatus, 2000);
+                setInterval( f1, 0002);
+                setInterval( f2, 10000);
+                setInterval( f3, 0002);
+                setInterval( f4, 5000);
+              function f1() {
+                setTimeout(readEditAppOnlineStatus, 0001);
+                }
+              function f2() {
+                setTimeout(writeEditAppOnlineSatatus, 2000);
+                 } 
+              function f3() {
+                setTimeout(readEAOTS, 0001);
+                }
+               function f4() {
+                setTimeout(detectOnline, 3000);
+                }
+             } 
+             
+              
+               
+              
+        // function check() {
+             //   readEditAppOnlineSatatus();
+           /// if (readEAOS) {
+              //  writeEditAppOnlineStatus();
+             //    readEAOS = false;
+            ///   }  
+           //  if (writeEAOS) {
+            //    readEditAppOnlineStatus();
+             // writeEAOS = false;
+               // }  
+            //  }
+             
+</script>      
+    
+        
+<script>
+    
+function test1() {
+var canvas = document.getElementById("canvas");
+var context = canvas.getContext('2d');
+// var file = document.getElementById("file").files[0] ;
+  
+        var image = new Image();
+        image.setAttribute('crossOrigin', 'anonymous');
+        image.src = 'keypad1.png';
+        image.onload = function (e) {
+          context.drawImage(image, 0, 0, 1080, 640);
+        };
+    /*
+  var el = document.getElementById("canvas");
+  el.addEventListener("touchstart", handleStart, false);
+    */
+  function handleStart(evt) {
+  evt.preventDefault();
+  // console.log("touchstart.");
+  var el = document.getElementById("canvas");
+  var ctx = el.getContext("2d");
+  var touches = evt.changedTouches;
+  var  x = touches[0].pageX;
+  var  y = touches[0].pageY;
+  document.getElementById("div6").innerHTML += "<br>"+ x +" "+ y;
+}
+
+function handleMove(evt) {
+  evt.preventDefault();
+  var el = document.getElementById("canvas");
+  var ctx = el.getContext("2d");
+  var touches = evt.changedTouches;
+  var  x = touches[0].pageX;
+  var  y = touches[0].pageY;
+ // document.getElementById("div6").innerHTML += "<br>"+ x +" "+ y;
+ }
+    
+function handleEnd(evt) {
+  evt.preventDefault();
+  // log("touchend");
+  var el = document.getElementById("canvas");
+  var ctx = el.getContext("2d");
+  var touches = evt.changedTouches;
+  var  x = touches[0].pageX;
+  var  y = touches[0].pageY;
+ // document.getElementById("div6").innerHTML += "<br>"+ x +" "+ y;
+ }
+    
+function handleCancel(evt) {
+  evt.preventDefault();
+  // console.log("touchcancel.");
+  var touches = evt.changedTouches;
+  var  x = touches[0].pageX;
+  var  y = touches[0].pageY;
+  // document.getElementById("div6").innerHTML += "<br>"+ x +" "+ y;
+ }
+    
+function log(msg) {
+  var p = document.getElementById('Div6');
+  p.innerHTML = msg + "\n" + p.innerHTML;
+ }
+    
+function startup() {
+  var el = document.getElementById("canvas");
+  el.addEventListener("touchstart", handleStart, false);
+  el.addEventListener("touchend", handleEnd, false);
+  el.addEventListener("touchcancel", handleCancel, false);
+  el.addEventListener("touchmove", handleMove, false);
+}
+
+ document.addEventListener("DOMContentLoaded", startup);
+     
+}
+    
+</script>
+
+    
+</body>
+</html>
