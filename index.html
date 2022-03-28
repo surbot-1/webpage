@@ -783,7 +783,7 @@ function putChar1() {
 	var fb; var k=0; 
         for (let i=0; i<(cw1/8)*ch1; i++) { 
             for (let j=0; j<8; j++) {
-                 fb = inconsolafont[(cw1/8)*ch1*oh1+i] & cb[j]; 
+                 fb = ubuntubold[(cw1/8)*ch1*oh1+i] & cb[j]; 
                  if (fb) {
 			if (chatbot) {
 				fontView[k+0] = 0x00;
