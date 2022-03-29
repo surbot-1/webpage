@@ -56,7 +56,7 @@ var msgbot=[[[""],
 	    [[],[]],
 	    [[],[]]]; 
 	
-	var mcnt=20; alert(msgbot.length);
+       // var mcnt=20; 
 	
 	var nbot=""; // = new Uint8Array(512); 
 	var cbot="";
