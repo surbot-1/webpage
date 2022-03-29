@@ -35,6 +35,7 @@ document.getElementById("divCanv").appendChild(canvs);
 	
 </script> 
 	
+// document.body.style.backgroundColor = "silver";
 <script src="function/keypad.js"></script>
 	
 <script>
@@ -686,7 +687,7 @@ function sendMessage() {
           ctx.fillRect(124+14, 1416, 796-128+28-14, 48*2);
           cx=cxi; cy=cyi;
 	
-	ctx.fillStyle = "white";
+	ctx.fillStyle = "rgba(192,192,192,1.0)";
         ctx.fillRect(0, 144, 1080, 1248);
         cx1=cx1i; cy1=cy1i;
 	
@@ -799,9 +800,9 @@ function putChar1() {
 				k+=4;
 			}
                   } else {
-		  fontView[k+0] = 0xFF; 
-		  fontView[k+1] = 0xFF;
-		  fontView[k+2] = 0xFF;
+		  fontView[k+0] = 0xC0; 
+		  fontView[k+1] = 0xC0;
+		  fontView[k+2] = 0xC0;
 		  fontView[k+3] = 0xFF;
 		  k+=4; 
                   }
