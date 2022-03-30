@@ -89,7 +89,7 @@ document.body.style.backgroundColor = "black";
         image2.src = 'text4.png';
         image2.onload = function (e) {
 	var x = cx;
-	var y = ch-144-640-1+640;  // 1391+640=2031
+	var y = ch-144-640+640;  // 1391+640=2032
 	var w = cw;
 	var h = 144;
           context.drawImage(image2, x, y, w, h);
@@ -150,7 +150,7 @@ document.body.style.backgroundColor = "black";
         image2.src = 'text5.png';
         image2.onload = function (e) {
 	var x = cx;
-	var y = ch-144-640-1;  // 1391
+	var y = ch-144-640;  // 1392
 	var w = cw;
 	var h = 144;
           ctx.drawImage(image2, x, y, w, h);
